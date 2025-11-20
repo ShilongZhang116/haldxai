@@ -1,4 +1,4 @@
-# ⭐ **HALDxAI – Healthy Aging and Longevity Discovery AI**
+# ⭐ **HALDxAI – Human Aging and Longevity Database with AI**
 
 *A scalable AI-driven platform for aging-related knowledge extraction, integration, and discovery*
 
