@@ -1,0 +1,352 @@
+# HALDxAI Main Configuration File
+# This file contains the main configuration for the HALDxAI platform
+
+# Project Information
+project:
+  name: "HALDxAI"
+  version: "1.1.0"
+  description: "Healthy Aging and Longevity Discovery AI Platform"
+
+# Directory Structure
+paths:
+  project_root: "."  # Auto-detected if not specified
+  data_dir: "data"
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  model_dir: "models"
+  log_dir: "logs"
+  config_dir: "configs"
+  output_dir: "outputs"
+
+# Database Configuration
+database:
+  # PostgreSQL
+  postgresql:
+    host: "${PG_HOST:localhost}"
+    port: "${PG_PORT:5432}"
+    dbname: "${PG_DBNAME:haldxai}"
+    user: "${PG_USER:postgres}"
+    password: "${PG_PASS:}"
+    schema: "hald"
+  
+  # Neo4j
+  neo4j:
+    uri: "${NEO4J_URI:bolt://localhost:7687}"
+    user: "${NEO4J_USER:neo4j}"
+    password: "${NEO4J_PASSWORD:}"
+    database: "neo4j"
+
+# API Configuration
+api:
+  # DeepSeek API
+  deepseek:
+    base_url: "${DEEPSEEK_BASE_URL:https://api.deepseek.com}"
+    model: "${DEEPSEEK_MODEL:deepseek-chat}"
+    api_key: "${DEEPSEEK_API_KEY:}"
+    timeout: "${DEEPSEEK_TIMEOUT:30}"
+    max_retries: 3
+    retry_delay: 1.0
+  
+  # OpenAI API (alternative)
+  openai:
+    base_url: "${OPENAI_BASE_URL:https://api.openai.com/v1}"
+    model: "${OPENAI_MODEL:gpt-3.5-turbo}"
+    api_key: "${OPENAI_API_KEY:}"
+    timeout: "${OPENAI_TIMEOUT:30}"
+    max_retries: 3
+    retry_delay: 1.0
+  
+  # PubMed API
+  pubmed:
+    api_key: "${PUBMED_API_KEY:}"
+    email: "${PUBMED_EMAIL:}"
+    base_url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+    max_requests_per_second: 3
+    batch_size: 500
+  
+  # BioPortal API
+  bioportal:
+    base_url: "${BIOPORTAL_BASE_URL:https://data.bioontology.org/search}"
+    api_key: "${BIOPORTAL_API_KEY:}"
+    page_size: "${BIOPORTAL_PAGE_SIZE:10}"
+    timeout: 30
+
+# Processing Configuration
+processing:
+  # General
+  max_workers: "${MAX_WORKERS:16}"
+  chunk_size: "${CHUNK_SIZE:200}"
+  batch_size: "${BATCH_SIZE:100}"
+  parallel_processing: true
+  
+  # LLM Configuration
+  llm:
+    temperature: "${LLM_TEMPERATURE:0.1}"
+    max_tokens: "${LLM_MAX_TOKENS:2048}"
+    top_p: "${LLM_TOP_P:0.9}"
+    frequency_penalty: 0.0
+    presence_penalty: 0.0
+  
+  # Caching
+  cache:
+    enabled: "${ENABLE_CACHE:true}"
+    ttl: "${CACHE_TTL:3600}"  # seconds
+    directory: "cache"
+    max_size_mb: 1000
+  
+  # Progress Tracking
+  progress:
+    show_progress: true
+    progress_interval: 10  # Update every N items
+    save_intermediate: true
+
+# HALD Entity Classes
+hald_classes:
+  classes:
+    - "BMC"  # Biological Molecular Components
+    - "EGR"  # Epigenetic Regulators
+    - "ASPKM"  # Aging Signaling Pathways and Kinase Modulators
+    - "CRD"  # Cellular Repair and Defense
+    - "APP"  # Aging Protective Processes
+    - "SCN"  # Stem Cell Niches
+    - "AAI"  # Anti-Aging Interventions
+    - "CRBC"  # Cellular Regeneration and Brain Cells
+    - "NM"  # Neurotransmission and Metabolism
+    - "EF"  # Environmental Factors
+  
+  color_map:
+    BMC: "#F9D622"
+    EGR: "#F28D21"
+    ASPKM: "#CC6677"
+    CRD: "#459FC4"
+    APP: "#FF7676"
+    SCN: "#44AA99"
+    AAI: "#117733"
+    CRBC: "#332288"
+    NM: "#AA4499"
+    EF: "#88CCEE"
+  
+  descriptions:
+    BMC: "Biological Molecular Components"
+    EGR: "Epigenetic Regulators"
+    ASPKM: "Aging Signaling Pathways and Kinase Modulators"
+    CRD: "Cellular Repair and Defense"
+    APP: "Aging Protective Processes"
+    SCN: "Stem Cell Niches"
+    AAI: "Anti-Aging Interventions"
+    CRBC: "Cellular Regeneration and Brain Cells"
+    NM: "Neurotransmission and Metabolism"
+    EF: "Environmental Factors"
+
+# Scoring Configuration
+scoring:
+  # Aging Relevance Scoring
+  aging_relevance:
+    aging_threshold: 0.70
+    use_journal_weight: true
+    use_recency_weight: true
+    half_life_years: 6.0
+    alpha: 1.0
+    evidence_chunksize: 2000000
+    top_articles_k: 3
+    top_n_export: 150
+  
+  # Bridge Candidate Scoring
+  bridge_candidates:
+    min_weight_norm: 0.60
+    percentile_q: 0.85
+    min_evidence_count: 2
+    min_sources_unique: 1
+    case_insensitive_type: false
+
+# Visualization Configuration
+visualization:
+  # General
+  default_dpi: 300
+  default_figsize: [8, 8]
+  color_scheme: "default"
+  
+  # Network Visualization
+  network:
+    layout: "spring"
+    node_size_range: [10, 100]
+    edge_width_range: [1, 10]
+    show_labels: true
+    label_font_size: 8
+    save_formats: ["png", "svg", "pdf"]
+  
+  # Statistical Plots
+  plots:
+    color_palette: "Set2"
+    figure_style: "seaborn"
+    font_family: "Arial"
+    font_size: 12
+    save_format: "png"
+
+# Logging Configuration
+logging:
+  level: "${LOG_LEVEL:INFO}"
+  format: "${LOG_FORMAT:%(asctime)s | %(levelname)s | %(message)s}"
+  
+  # File Logging
+  file:
+    enabled: true
+    path: "logs/haldxai.log"
+    max_size_mb: 10
+    backup_count: 5
+    rotation: "daily"
+  
+  # Console Logging
+  console:
+    enabled: true
+    colored: true
+  
+  # Structured Logging
+  structured:
+    enabled: false
+    format: "json"
+
+# Security Configuration
+security:
+  debug: "${DEBUG:false}"
+  testing: "${TESTING:false}"
+  secret_key: "${SECRET_KEY:}"
+  
+  # Rate Limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+    burst_size: 10
+  
+  # Authentication
+  authentication:
+    session_timeout: 3600  # seconds
+    max_login_attempts: 5
+    lockout_duration: 900  # seconds
+
+# Performance Configuration
+performance:
+  # Memory Management
+  memory:
+    max_usage_gb: 8.0
+    cleanup_threshold: 0.8
+    garbage_collection_interval: 300  # seconds
+  
+  # Parallel Processing
+  parallel:
+    max_processes: 4
+    thread_pool_size: 16
+    async_enabled: true
+  
+  # Optimization
+  optimization:
+    lazy_loading: true
+    caching_enabled: true
+    compression_enabled: true
+
+# External Data Sources
+external_sources:
+  # Aging Atlas
+  aging_atlas:
+    base_url: "https://aging-atlas.org/api"
+    timeout: 30
+    rate_limit: 100  # requests per hour
+  
+  # HAGR (Human Ageing Genomic Resources)
+  hagr:
+    base_url: "https://genomics.senescence.info"
+    timeout: 30
+    rate_limit: 1000  # requests per hour
+  
+  # CTD (Comparative Toxicogenomics Database)
+  ctd:
+    base_url: "http://ctdbase.org"
+    timeout: 30
+    rate_limit: 1000  # requests per hour
+  
+  # Hallmarks of Aging
+  hallmarks:
+    base_url: "https://www.ncbi.nlm.nih.gov"
+    timeout: 30
+    rate_limit: 100  # requests per hour
+
+# Development Configuration
+development:
+  # Testing
+  testing:
+    enabled: "${TESTING:false}"
+    test_data_dir: "tests/data"
+    mock_apis: false
+  
+  # Debugging
+  debugging:
+    enabled: "${DEBUG:false}"
+    verbose_logging: false
+    profiling: false
+    memory_profiling: false
+  
+  # Validation
+  validation:
+    strict_mode: false
+    validate_inputs: true
+    validate_outputs: true
+
+# Deployment Configuration
+deployment:
+  # Environment
+  environment: "development"  # development, staging, production
+  
+  # Web Server
+  web:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+    reload: true
+  
+  # Database
+  database_migration:
+    auto_migrate: false
+    backup_before_migration: true
+    migration_timeout: 300  # seconds
+
+# Monitoring Configuration
+monitoring:
+  # Metrics
+  metrics:
+    enabled: true
+    collection_interval: 60  # seconds
+    retention_days: 30
+  
+  # Health Checks
+  health_checks:
+    enabled: true
+    interval: 300  # seconds
+    timeout: 10  # seconds
+  
+  # Alerts
+  alerts:
+    enabled: false
+    email_recipients: []
+    webhook_url: ""
+    error_threshold: 10  # errors per hour
+
+# Integration Configuration
+integrations:
+  # Jupyter
+  jupyter:
+    enabled: true
+    default_kernel: "python3"
+    notebook_dir: "notebooks"
+  
+  # Docker
+  docker:
+    enabled: false
+    image_name: "haldxai:latest"
+    container_name: "haldxai"
+    port_mapping: "8000:8000"
+  
+  # Cloud Services
+  cloud:
+    provider: ""  # aws, gcp, azure
+    region: ""
+    credentials_file: ""
