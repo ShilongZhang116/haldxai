@@ -1,4 +1,4 @@
-# ⭐ **HALDxAI – Human Aging and Longevity Database with AI**
+# **HALDxAI – Human Aging and Longevity Database with AI**
 
 *A scalable AI-driven platform for aging-related knowledge extraction, integration, and discovery*
 
@@ -183,10 +183,10 @@ See the `LICENSE` file for details.
 If you use HALDxAI in your research, please cite:
 
 ```bibtex
-@software{haldxai2024,
-  title={HALDxAI: Healthy Aging and Longevity Discovery AI},
-  author={HALDxAI Development Team},
-  year={2024},
+@software{haldxai2025,
+  title={HALDxAI: an AI-based knowledge graph framework for aging and longevity research},
+  author={Shilong Zhang},
+  year={2025},
   url={https://github.com/ShilongZhang116/haldxai}
 }
 ```
